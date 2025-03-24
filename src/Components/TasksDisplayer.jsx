@@ -1,26 +1,35 @@
 import { useSelector, useDispatch } from "react-redux";
-import { RemoveTask, StorageCopy, UpdateTask } from "../Redux/TasksSlice";
+import { RemoveTask, StorageCopy, TaskCompleted, UpdateTask } from "../Redux/TasksSlice";
 import { useEffect, useState } from "react";
+import { MarkComplete, StorageCopyFinished } from "../Redux/CompletedTasksSlice";
 
-export const TasksDisplayer = () => {
+export const TasksDisplayer = (props) => {
+    const { addedTasks, completedTasks } = props;
+    const [taskToggler, setTasktoggler] = useState(false)
+    const tasks = taskToggler ? completedTasks : addedTasks;
     const [editToggele, setEditToggle] = useState(false);
     const [eidx, setEidx] = useState(0);
     const [taskk, setTaskk] = useState({
         title: "",
         description: "",
     })
-    var addedTasks = useSelector(s => s.tasks);
+
+
 
     const disptach = useDispatch();
 
     const tasksLoader = () => {
         const storageTasks = JSON.parse(localStorage.getItem('addedTasks'));
-        if (storageTasks?.length) {
-            disptach(StorageCopy(storageTasks));
-            return;
-        }
+        const storageFinishedTasks = JSON.parse(localStorage.getItem('FinishedTasks'));
+        if (storageTasks?.length) disptach(StorageCopy(storageTasks));
 
-        disptach(StorageCopy([]));
+        if (storageFinishedTasks?.length) disptach(StorageCopyFinished(storageFinishedTasks));
+
+
+        if (!storageTasks.length) disptach(StorageCopy([]));
+
+        if (!storageFinishedTasks.length) disptach(StorageCopyFinished([]))
+
     }
 
     const editTask = (task, idx) => {
@@ -33,13 +42,19 @@ export const TasksDisplayer = () => {
         setTaskk({ ...taskk, [e.target.name]: e.target.value })
     }
 
+    const CompleteTask = (idx, task) => {
+        disptach(TaskCompleted(idx));
+        disptach(MarkComplete(task));
+    }
+
     useEffect(() => {
         tasksLoader();
     }, [])
 
     return (
         <>
-            {(addedTasks.length != 0) && addedTasks.map((task, index) => (
+            <button onClick={() => setTasktoggler(!taskToggler)}>{!taskToggler ? `Show Completed Tasks` : `Show Pending Tasks`}</button>
+            {(addedTasks.length != 0) && tasks.map((task, index) => (
                 <div key={index}>
 
                     {(editToggele && (eidx == index)) ?
@@ -59,14 +74,18 @@ export const TasksDisplayer = () => {
 
 
                     <div className='btns'>
-                        <button onClick={() => {
-                            disptach(RemoveTask(index))
-                            setEditToggle(false)
-                        }}>Delete</button>
+                        {!taskToggler ?
+                            <button onClick={() => {
+                                disptach(RemoveTask(index))
+                                setEditToggle(false)
+                            }}>Delete</button>
+                            :
+                            <button>Remove</button>
+                        }
 
-                        <button onClick={() => editTask(task, index)}>Edit</button>
+                        {!taskToggler && <button onClick={() => editTask(task, index)}>Edit</button>}
 
-                        <button>Mark as Completed</button>
+                        {tasks != completedTasks && <button onClick={() => CompleteTask(index, task)}>Mark as Completed</button>}
                     </div>
 
                     <br />

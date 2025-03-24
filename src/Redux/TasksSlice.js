@@ -24,11 +24,18 @@ const TasksSlice = createSlice({
             if (foundTask) {
                 foundTask.title = title;
                 foundTask.description = description;
+                localStorage.setItem('addedTasks', JSON.stringify(state));
+                return state;
             }
+            return state;
+        },
+        TaskCompleted: (state, action) => {
+            state.splice(action.payload, 1);
+            localStorage.setItem('addedTasks', JSON.stringify(state));
             return state;
         }
     }
 })
 
-export const { AddTask, StorageCopy, RemoveTask, UpdateTask } = TasksSlice.actions;
+export const { AddTask, StorageCopy, RemoveTask, UpdateTask, TaskCompleted } = TasksSlice.actions;
 export default TasksSlice.reducer;
