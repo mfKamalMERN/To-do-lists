@@ -1,7 +1,7 @@
 import { useSelector, useDispatch } from "react-redux";
 import { RemoveTask, StorageCopy, TaskCompleted, UpdateTask } from "../Redux/TasksSlice";
 import { useEffect, useState } from "react";
-import { MarkComplete, StorageCopyFinished } from "../Redux/CompletedTasksSlice";
+import { MarkComplete, RemoveTaskFinished, StorageCopyFinished } from "../Redux/CompletedTasksSlice";
 
 export const TasksDisplayer = (props) => {
     const { addedTasks, completedTasks } = props;
@@ -21,6 +21,7 @@ export const TasksDisplayer = (props) => {
     const tasksLoader = () => {
         const storageTasks = JSON.parse(localStorage.getItem('addedTasks'));
         const storageFinishedTasks = JSON.parse(localStorage.getItem('FinishedTasks'));
+        
         if (storageTasks?.length) disptach(StorageCopy(storageTasks));
 
         if (storageFinishedTasks?.length) disptach(StorageCopyFinished(storageFinishedTasks));
@@ -80,7 +81,7 @@ export const TasksDisplayer = (props) => {
                                 setEditToggle(false)
                             }}>Delete</button>
                             :
-                            <button>Remove</button>
+                            <button onClick={() => disptach(RemoveTaskFinished(index))}>Remove</button>
                         }
 
                         {!taskToggler && <button onClick={() => editTask(task, index)}>Edit</button>}
