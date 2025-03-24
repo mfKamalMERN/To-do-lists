@@ -15,9 +15,20 @@ const TasksSlice = createSlice({
             const uTasks = state.filter((task, idx) => idx != action.payload)
             localStorage.setItem('addedTasks', JSON.stringify(uTasks));
             return uTasks;
+        },
+
+        UpdateTask: (state, action) => {
+            const { eidx, taskk } = action.payload;
+            const { title, description } = taskk
+            let foundTask = state.find((task, idx) => idx == eidx);
+            if (foundTask) {
+                foundTask.title = title;
+                foundTask.description = description;
+            }
+            return state;
         }
     }
 })
 
-export const { AddTask, StorageCopy, RemoveTask } = TasksSlice.actions;
+export const { AddTask, StorageCopy, RemoveTask, UpdateTask } = TasksSlice.actions;
 export default TasksSlice.reducer;

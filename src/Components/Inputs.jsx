@@ -13,6 +13,11 @@ export const Inputs = () => {
         e.preventDefault();
 
         disptach(AddTask(task));
+        
+        setTask({
+            title: "",
+            description: "",
+        })
 
     }
 
