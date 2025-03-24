@@ -76,13 +76,13 @@ export const TasksDisplayer = (props) => {
                                     <button onClick={() => {
                                         disptach(RemoveTask(index))
                                         setEditToggle(false)
-                                    }}>Delete</button>
+                                    }}>🪣</button>
                                     :
                                     <button onClick={() => disptach(RemoveTaskFinished(index))}>Remove</button>}
 
-                                {!taskToggler && <button onClick={() => editTask(task, index)}>Edit</button>}
+                                {!taskToggler && <button onClick={() => editTask(task, index)}>✏️</button>}
 
-                                {tasks != completedTasks && <button onClick={() => CompleteTask(index, task)}>Mark as Completed</button>}
+                                {tasks != completedTasks && <button onClick={() => CompleteTask(index, task)}>✅</button>}
                             </div>
                         </>}
 
