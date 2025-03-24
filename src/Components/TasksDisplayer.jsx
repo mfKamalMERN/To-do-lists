@@ -56,8 +56,8 @@ export const TasksDisplayer = (props) => {
         <>
             <button onClick={() => setTasktoggler(!taskToggler)}>{!taskToggler ? `Show Completed Tasks` : `Show Pending Tasks`}</button>
             {(tasks?.length != 0) && tasks.map((task, index) => (
-                <div key={index}>
 
+                <div key={index}>
                     {(editToggele && (eidx == index)) ?
                         <>
                             <input type="text" value={taskk.title} name="title" onChange={handleChange} />
@@ -85,14 +85,7 @@ export const TasksDisplayer = (props) => {
                                 {tasks != completedTasks && <button onClick={() => CompleteTask(index, task)}>✅</button>}
                             </div>
                         </>}
-
-
-
-
-                    <br />
-                    <br />
-                </div>))
-            }
+                </div>))}
         </>
     )
 }
