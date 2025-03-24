@@ -71,23 +71,23 @@ export const TasksDisplayer = (props) => {
                         <>
                             <h3>{task.title}</h3>
                             <h3>{task.description}</h3>
+                            <div className='btns'>
+                                {!taskToggler ?
+                                    <button onClick={() => {
+                                        disptach(RemoveTask(index))
+                                        setEditToggle(false)
+                                    }}>Delete</button>
+                                    :
+                                    <button onClick={() => disptach(RemoveTaskFinished(index))}>Remove</button>}
+
+                                {!taskToggler && <button onClick={() => editTask(task, index)}>Edit</button>}
+
+                                {tasks != completedTasks && <button onClick={() => CompleteTask(index, task)}>Mark as Completed</button>}
+                            </div>
                         </>}
 
 
-                    <div className='btns'>
-                        {!taskToggler ?
-                            <button onClick={() => {
-                                disptach(RemoveTask(index))
-                                setEditToggle(false)
-                            }}>Delete</button>
-                            :
-                            <button onClick={() => disptach(RemoveTaskFinished(index))}>Remove</button>
-                        }
 
-                        {!taskToggler && <button onClick={() => editTask(task, index)}>Edit</button>}
-
-                        {tasks != completedTasks && <button onClick={() => CompleteTask(index, task)}>Mark as Completed</button>}
-                    </div>
 
                     <br />
                     <br />
