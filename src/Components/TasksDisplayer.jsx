@@ -21,15 +21,15 @@ export const TasksDisplayer = (props) => {
     const tasksLoader = () => {
         const storageTasks = JSON.parse(localStorage.getItem('addedTasks'));
         const storageFinishedTasks = JSON.parse(localStorage.getItem('FinishedTasks'));
-        
+
         if (storageTasks?.length) disptach(StorageCopy(storageTasks));
 
         if (storageFinishedTasks?.length) disptach(StorageCopyFinished(storageFinishedTasks));
 
 
-        if (!storageTasks.length) disptach(StorageCopy([]));
+        if (!storageTasks?.length) disptach(StorageCopy([]));
 
-        if (!storageFinishedTasks.length) disptach(StorageCopyFinished([]))
+        if (!storageFinishedTasks?.length) disptach(StorageCopyFinished([]))
 
     }
 
@@ -55,7 +55,7 @@ export const TasksDisplayer = (props) => {
     return (
         <>
             <button onClick={() => setTasktoggler(!taskToggler)}>{!taskToggler ? `Show Completed Tasks` : `Show Pending Tasks`}</button>
-            {(addedTasks.length != 0) && tasks.map((task, index) => (
+            {(tasks?.length != 0) && tasks.map((task, index) => (
                 <div key={index}>
 
                     {(editToggele && (eidx == index)) ?

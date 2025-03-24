@@ -8,6 +8,7 @@ function App() {
   var addedTasks = useSelector(s => s.tasks);
   const completedTasks = useSelector(s => s.finishedTasks);
   const Tasks = { addedTasks, completedTasks }
+  
   return (
     <div className="App">
       <Inputs />
